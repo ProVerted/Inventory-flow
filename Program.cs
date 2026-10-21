@@ -51,8 +51,9 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference(); // Interactive API Docs UI at /scalar/v1
 }
 
-// Redirect root URL directly to the interactive Scalar API docs
-app.MapGet("/", () => Results.Redirect("/scalar/v1"));
+// Enable default files (index.html) and static files from wwwroot
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
