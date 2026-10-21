@@ -1,0 +1,11 @@
+## .NET Core / C# gitignore
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+.vscode/
+*.log

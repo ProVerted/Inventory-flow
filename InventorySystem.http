@@ -1,0 +1,132 @@
+@InventorySystem_HostAddress = http://localhost:5111
+
+### 1. Register Admin User
+POST {{InventorySystem_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Password123!",
+  "role": "Admin"
+}
+
+### 2. Register Staff User
+POST {{InventorySystem_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "staff1",
+  "password": "Password123!",
+  "role": "Staff"
+}
+
+### 3. Login as Admin
+POST {{InventorySystem_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Password123!"
+}
+
+### 4. Get Current User Info
+GET {{InventorySystem_HostAddress}}/auth/me
+Accept: application/json
+
+### 5. Create Product 1 (Normal stock)
+POST {{InventorySystem_HostAddress}}/products
+Content-Type: application/json
+
+{
+  "name": "Wireless Ergonomic Mouse",
+  "sku": "MOUSE-WL-01",
+  "price": 29.99,
+  "stockQuantity": 50,
+  "lowStockAlert": 10
+}
+
+### 6. Create Product 2 (Low stock)
+POST {{InventorySystem_HostAddress}}/products
+Content-Type: application/json
+
+{
+  "name": "USB-C Fast Charger 65W",
+  "sku": "CHG-65W-02",
+  "price": 39.50,
+  "stockQuantity": 5,
+  "lowStockAlert": 5
+}
+
+### 7. List All Products
+GET {{InventorySystem_HostAddress}}/products
+Accept: application/json
+
+### 8. Search Products by Name/SKU
+GET {{InventorySystem_HostAddress}}/products?search=mouse
+Accept: application/json
+
+### 9. Get Low-Stock Alerts
+GET {{InventorySystem_HostAddress}}/products/low-stock
+Accept: application/json
+
+### 10. Get Product By ID
+GET {{InventorySystem_HostAddress}}/products/1
+Accept: application/json
+
+### 11. Adjust Product Stock (Restock +20)
+PATCH {{InventorySystem_HostAddress}}/products/2/stock
+Content-Type: application/json
+
+{
+  "adjustmentQuantity": 20,
+  "reason": "Supplier shipment received"
+}
+
+### 12. Create Invoice (Deducts stock automatically)
+POST {{InventorySystem_HostAddress}}/invoices
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+### 13. Test Insufficient Stock Rejection (Attempting to buy 999 items)
+POST {{InventorySystem_HostAddress}}/invoices
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 999
+    }
+  ]
+}
+
+### 14. List All Invoices
+GET {{InventorySystem_HostAddress}}/invoices
+Accept: application/json
+
+### 15. Get Invoice Details By ID
+GET {{InventorySystem_HostAddress}}/invoices/1
+Accept: application/json
+
+### 16. Get Inventory & Sales Dashboard Metrics
+GET {{InventorySystem_HostAddress}}/reports/dashboard
+Accept: application/json
+
+### 17. Get Sales Analytics Report
+GET {{InventorySystem_HostAddress}}/reports/sales
+Accept: application/json
+
+### 18. Logout
+POST {{InventorySystem_HostAddress}}/auth/logout
